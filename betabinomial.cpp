@@ -7,13 +7,15 @@ Type objective_function<Type>::operator() ()
   DATA_VECTOR(n);
   PARAMETER(a);
   PARAMETER(b);
-  PARAMETER(log_gamma); Type gamma = 1 + 1e-10 + exp(log_gamma); ADREPORT(gamma);
+  PARAMETER(log_gamma); 
+  Type gamma = 1 + 1e-10 + exp(log_gamma); // Hack 2 to avoid to big alpha's and beta's when there is underdispersion
+  ADREPORT(gamma);
   
   Type nll = 0;
   for (int i=0; i<y.size(); i ++) {
     Type eta = a + b*x(i);
     Type p     = 1/(1+exp(-eta));
-    Type alpha = p      *(n(i) - 1)/(gamma - 1) + 1e-100;
+    Type alpha = p      *(n(i) - 1)/(gamma - 1) + 1e-100; // Hack 1 to avoid lgamma(0) below
     Type beta  = (1 - p)*(n(i) - 1)/(gamma - 1) + 1e-100;
     // log of Beta binomial point mass function
     nll -=
