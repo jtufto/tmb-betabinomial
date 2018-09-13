@@ -8,7 +8,7 @@ Type objective_function<Type>::operator() ()
   PARAMETER(a);
   PARAMETER(b);
   PARAMETER(log_gamma); 
-  Type gamma = 1 + 1e-10 + exp(log_gamma); // Hack 2 to avoid to big alpha's and beta's when there is underdispersion
+  Type gamma = 1 + 1e-10 + exp(log_gamma); // Hack 2 to avoid too big alpha's and beta's when there is underdispersion
   ADREPORT(gamma);
   
   Type nll = 0;
